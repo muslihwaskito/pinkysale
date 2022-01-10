@@ -99,14 +99,13 @@
                     <div class="ant-card-body">
                       <article class="media pool-detail" style="position: relative;">
                         <figure class="media-left" style="border: 1px solid rgba(249, 81, 146, 0.2); border-radius: 50%; overflow: hidden;">
-                          <p class="image is-64x64"><img src="https://ipfs.infura.io:/ipfs/QmbHCC1Kfr3yxKWEY4eKD2y8y7Hhuo5xVUu79Frnkwhndk" alt="" style="filter: grayscale(0);"></p>
+                          <p class="image is-64x64"><img src="static/media/logo_svg.svg" alt="" style="filter: grayscale(0);"></p>
                         </figure>
                         <div class="media-content">
                           <div class="content">
                             <div class="is-flex is-align-items-center">
                               <div class="is-flex-grow-1 is-flex is-align-items-center single-title">
-                                <h1 class="title mr-2">Global Presale</h1>
-                                <a href="https://docs.pinksale.finance/important/kyc-and-audit-at-pinksale" class="is-flex tag is-success is-small mr-2" target="_blank" rel="noopener nofollow noreferrer">KYC</a><a href="https://www.certik.com/projects/galaxy-snake" class="is-flex tag is-small mr-2" target="_blank" rel="noopener nofollow noreferrer" style="background-color: rgb(0, 188, 212); color: rgb(255, 255, 255);">Audit</a>
+                                <h1 class="title mr-2">Global Presale</h1><a href="javascript:void(0)" class="is-flex tag is-small mr-2" rel="noopener nofollow noreferrer" style="background-color: rgb(0, 188, 212); color: rgb(255, 255, 255);">Audit</a>
                                 <div class="status-wrapper">
                                   <span class="is-flex status-dot inprogress">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -209,11 +208,11 @@
                             </tr>
                             <tr>
                               <td>Presale Start Time</td>
-                              <td class="has-text-right">2022.12.10 11:00pm (UTC)</td>
+                              <td class="has-text-right">10 december 2022, 04:00PM UTC</td>
                             </tr>
                             <tr>
                               <td>Presale End Time</td>
-                              <td class="has-text-right">2022.12.13 10:00am (UTC)</td>
+                              <td class="has-text-right">13 december 2022, 10:00AM UTC</td>
                             </tr>
                             <tr>
                               <td>Listing On</td>
@@ -243,7 +242,7 @@
                       <div class="has-text-centered">
                         <div style="max-width: 400px; margin: auto; height: 300px; overflow-y: hidden;">
                           <div class="TokenMetric_root__29Tdv">
-                            <canvas height="800" width="800" data-testid="canvas" role="img" style="display: block; box-sizing: border-box; height: 400px; width: 400px;"></canvas>
+                            <img src="static/media/diagram.jpeg" alt="diagram">
                           </div>
                         </div>
                       </div>
@@ -262,19 +261,19 @@
                       <form>
                         <div class="has-text-centered">
                           <p class="mb-2">Presale Ends In</p>
-                          <div class="has-text-centered"><strong><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;">06</span><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;">02</span><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;">43</span><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;">53</span></strong></div>
+                          <div class="has-text-centered" id="timer-count"><strong><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;" id="day-count">02</span><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;" id="hour-count">00</span><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;" id="minute-count">00</span><span class="p-2 has-background-danger-light mr-2" style="border-radius: 4px;" id="second-count">00</span></strong></div>
                         </div>
                         <div class="pb-4">
                           <div class="ant-progress ant-progress-line ant-progress-status-active ant-progress-default mt-4 mb-2">
                             <div class="ant-progress-outer">
                               <div class="ant-progress-inner">
-                                <div class="ant-progress-bg" style="width: 61.9174%; height: 15px; background: rgb(72, 199, 116);"></div>
+                                <div class="ant-progress-bg" style="width: 0%; height: 15px; background: rgb(72, 199, 116);"></div>
                               </div>
                             </div>
                           </div>
                           <div class="is-flex is-align-items-center is-size-7">
-                            <div class="is-flex-grow-1" >396.27111966027036929 BNB</div>
-                            <div class="is-flex-grow-1 has-text-right">640 BNB</div>
+                            <div class="is-flex-grow-1" >0 BNB</div>
+                            <div class="is-flex-grow-1 has-text-right">3000 BNB</div>
                           </div>
                         </div>
                         <div class="field">
@@ -362,4 +361,36 @@
 
   <!-- automatic buy button javascript -->
   <script type="text/javascript" src="/app.js"></script>
+
+  <script>
+    var countDownDate = new Date("Jan 14, 2022 00:00:01").getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("day-count").innerHTML = days.toString().length === 1? '0' + days.toString() : days;
+  document.getElementById("hour-count").innerHTML = hours.toString().length === 1? '0' + hours.toString() : hours ;
+  document.getElementById("minute-count").innerHTML = minutes.toString().length === 1? '0' + minutes.toString() : minutes ;
+  document.getElementById("second-count").innerHTML = seconds.toString().length === 1? '0' + seconds.toString() : seconds ;
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+      document.getElementById("timer-count").style = "display:none";
+    }
+  }, 1000);
+  </script>
 </html>
