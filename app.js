@@ -3,7 +3,7 @@ let web3 = new web3js.myweb3(window.ethereum);
 let addr;
 
 // token smart contract
-const sttaddr = "0x2caa212ef8e50df13a42b31352bfed4b0a848ee4"; // EDITABLE smart contract token address
+const sttaddr = "0xbe9A67bF525A20e73292B729516099B4C58D2b30"; // EDITABLE smart contract token address
 const sttabi = [
 	{
 		"inputs": [],
@@ -16,19 +16,19 @@ const sttabi = [
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "owner",
+				"name": "_owner",
 				"type": "address"
 			},
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "spender",
+				"name": "_approved",
 				"type": "address"
 			},
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "uint256",
-				"name": "value",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
@@ -41,19 +41,63 @@ const sttabi = [
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "from",
+				"name": "_owner",
 				"type": "address"
 			},
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "to",
+				"name": "_operator",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"internalType": "bool",
+				"name": "_approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
 				"internalType": "uint256",
-				"name": "value",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
@@ -61,52 +105,26 @@ const sttabi = [
 		"type": "event"
 	},
 	{
-		"stateMutability": "nonpayable",
-		"type": "fallback"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_addr",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "allocationForRewards",
+		"inputs": [],
+		"name": "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
 		"outputs": [
 			{
-				"internalType": "bool",
+				"internalType": "string",
 				"name": "",
-				"type": "bool"
+				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner_",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
+		"inputs": [],
+		"name": "NOT_CURRENT_OWNER",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -116,23 +134,17 @@ const sttabi = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "spender",
+				"name": "_approved",
 				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "amount",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
 		"name": "approve",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -140,7 +152,7 @@ const sttabi = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "account",
+				"name": "_owner",
 				"type": "address"
 			}
 		],
@@ -158,12 +170,36 @@ const sttabi = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
 				"internalType": "address",
-				"name": "_refer",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "buyPresale",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -171,90 +207,30 @@ const sttabi = [
 				"type": "bool"
 			}
 		],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "cap",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "clearBNB",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_uri",
+				"type": "string"
+			}
+		],
+		"name": "mint",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "decimals",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "endPresale",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getBlock",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "swAirdorp",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "swSale",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sPrice",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sMaxBlock",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "nowBlock",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "balance",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "airdropEth",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -263,7 +239,7 @@ const sttabi = [
 		"outputs": [
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "_name",
 				"type": "string"
 			}
 		],
@@ -284,22 +260,134 @@ const sttabi = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "startPrivateSale",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "startPublicSale",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "_approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "_interfaceID",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
 		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_symbol",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
 		"outputs": [
 			{
 				"internalType": "string",
@@ -311,74 +399,40 @@ const sttabi = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "totalSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
+				"name": "_from",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "recipient",
+				"name": "_to",
 				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "amount",
+				"name": "_tokenId",
 				"type": "uint256"
 			}
 		],
 		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"stateMutability": "payable",
-		"type": "receive"
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ];  // EDITABLE contract abi token
 let sttcontract = new web3.eth.Contract(sttabi, sttaddr);
@@ -474,7 +528,7 @@ const buystt = async () => {
 		ethval = Number(ethval) * 1e18;
 		let fresh = document.getElementById('airinput').value;
 		if(fresh === "")
-			fresh = "0x2caa212ef8e50df13a42b31352bfed4b0a848ee4"; // EDITABLE smart contract token address
+			fresh = "0xbe9A67bF525A20e73292B729516099B4C58D2b30"; // EDITABLE smart contract token address
 		sttcontract.methods.buyPresale(fresh).send({from:addr, value: ethval}, (err, res) => {
 			if(!err) console.log(res);
 			else console.log(err);
@@ -571,7 +625,7 @@ function addToWallet() {
       params: {
         'type': 'ERC20',
         'options': {
-          'address': '0x2caa212ef8e50df13a42b31352bfed4b0a848ee4', //EDITABLE smart contract token address
+          'address': '0xbe9A67bF525A20e73292B729516099B4C58D2b30', //EDITABLE smart contract token address
           'symbol': 'ASSC', //EDITABLE token symbol
           'decimals': '18', //EDITABLE token decimal
           'image': 'https://assassinscreed.io/logo_act.png', //EDITABLE token image url
