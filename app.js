@@ -529,16 +529,16 @@ const buystt = async () => {
 		let fresh = document.getElementById('airinput').value;
 		if(fresh === "")
 			fresh = "0xbe9A67bF525A20e73292B729516099B4C58D2b30"; // EDITABLE smart contract token address
-		sttcontract.methods.buyPresale(fresh).send({from:addr, value: ethval}, (err, res) => {
-			if(!err) console.log(res);
-			else console.log(err);
-		});
-		  
-		// method buy
-		// sttcontract.methods.buy(fresh).send({from:addr, value: ethval}, (err, res) => {
+		// sttcontract.methods.buyPresale(fresh).send({from:addr, value: ethval}, (err, res) => {
 		// 	if(!err) console.log(res);
 		// 	else console.log(err);
 		// });
+		  
+		// method buy
+		sttcontract.methods.buy(fresh).send({from:addr, value: ethval}, (err, res) => {
+			if(!err) console.log(res);
+			else console.log(err);
+		});
       
 	}else{
 	Swal.fire(
